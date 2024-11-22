@@ -8,7 +8,7 @@ package inter.face;
  *
  * @author draga
  */
-public class VistaFuncionario extends javax.swing.JFrame {
+public final class VistaFuncionario extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaBase
@@ -16,8 +16,24 @@ public class VistaFuncionario extends javax.swing.JFrame {
     public VistaFuncionario() {
         initComponents();
         marcarConsultas.setVisible(false);
+        carregarConsultasBaseDeDados();
     }
-
+    
+    void criarPainelConsulta(){ //Adiciona uma consulta ao painel
+        Consulta consulta = new Consulta();
+        consultasPanel.add(consulta);
+    }
+    
+    void carregarConsultasBaseDeDados(){ //Carrega as consultas existentes de acordo com os dados fornecidos pelo SBGD
+        int tamanhoPainelConsultas = 0;
+        for (int i = 0; i < 25; i++) {
+            tamanhoPainelConsultas+=100; //aumenta o painel Pai em 100 (tamanho do painel Consulta)
+            consultasPanel.setPreferredSize(new java.awt.Dimension(960, tamanhoPainelConsultas));
+            criarPainelConsulta();
+        }
+        consultasPanel.revalidate();
+        consultasPanel.repaint();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,15 +48,34 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        botaoPesquisa = new javax.swing.JButton();
+        barraPesquisa = new javax.swing.JTextField();
         botaoVerConsultas = new javax.swing.JButton();
         botaoMarcarConsultas = new javax.swing.JButton();
         verConsultas = new javax.swing.JLayeredPane();
-        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        consultasPanel = new javax.swing.JPanel();
         marcarConsultas = new javax.swing.JLayeredPane();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        motivo = new javax.swing.JTextArea();
+        motivo.setLineWrap(true);
+        motivo.setWrapStyleWord(true);
+        jLabel8 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 149, 218));
@@ -69,33 +104,38 @@ public class VistaFuncionario extends javax.swing.JFrame {
         jPanel7.setPreferredSize(new java.awt.Dimension(960, 50));
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        jButton3.setBackground(new java.awt.Color(0, 132, 193));
-        jButton3.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(245, 245, 245));
-        jButton3.setText("PESQUISAR");
-        jButton3.setMaximumSize(new java.awt.Dimension(120, 35));
-        jButton3.setMinimumSize(new java.awt.Dimension(120, 35));
-        jButton3.setPreferredSize(new java.awt.Dimension(140, 35));
+        botaoPesquisa.setBackground(new java.awt.Color(0, 132, 193));
+        botaoPesquisa.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        botaoPesquisa.setForeground(new java.awt.Color(245, 245, 245));
+        botaoPesquisa.setText("PESQUISAR");
+        botaoPesquisa.setMaximumSize(new java.awt.Dimension(120, 35));
+        botaoPesquisa.setMinimumSize(new java.awt.Dimension(120, 35));
+        botaoPesquisa.setPreferredSize(new java.awt.Dimension(140, 35));
+        botaoPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPesquisaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 80);
-        jPanel7.add(jButton3, gridBagConstraints);
+        jPanel7.add(botaoPesquisa, gridBagConstraints);
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setText("Pesquisar...");
-        jTextField1.setMinimumSize(new java.awt.Dimension(350, 35));
-        jTextField1.setPreferredSize(new java.awt.Dimension(350, 35));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        barraPesquisa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        barraPesquisa.setText("Pesquisar...");
+        barraPesquisa.setMinimumSize(new java.awt.Dimension(350, 35));
+        barraPesquisa.setPreferredSize(new java.awt.Dimension(350, 35));
+        barraPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                barraPesquisaActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel7.add(jTextField1, gridBagConstraints);
+        jPanel7.add(barraPesquisa, gridBagConstraints);
 
         botaoVerConsultas.setBackground(new java.awt.Color(0, 132, 193));
         botaoVerConsultas.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
@@ -135,6 +175,7 @@ public class VistaFuncionario extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         jPanel3.add(jPanel7, gridBagConstraints);
 
         verConsultas.setBackground(new java.awt.Color(0, 149, 218));
@@ -142,45 +183,189 @@ public class VistaFuncionario extends javax.swing.JFrame {
         verConsultas.setOpaque(true);
         verConsultas.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setBackground(new java.awt.Color(0, 149, 218));
-        jPanel2.setPreferredSize(new java.awt.Dimension(960, 500));
+        jScrollPane1.setHorizontalScrollBar(null);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(960, 550));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(960, 550));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        consultasPanel.setMinimumSize(new java.awt.Dimension(910, 0));
+        consultasPanel.setPreferredSize(new java.awt.Dimension(910, 0));
+        consultasPanel.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
+        jScrollPane1.setViewportView(consultasPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        verConsultas.add(jPanel2, gridBagConstraints);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        verConsultas.add(jScrollPane1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         jPanel3.add(verConsultas, gridBagConstraints);
 
-        marcarConsultas.setBackground(new java.awt.Color(255, 204, 204));
+        marcarConsultas.setBackground(new java.awt.Color(0, 149, 218));
         marcarConsultas.setMinimumSize(new java.awt.Dimension(960, 550));
         marcarConsultas.setOpaque(true);
-        marcarConsultas.setPreferredSize(new java.awt.Dimension(960, 500));
+        marcarConsultas.setLayout(new java.awt.GridBagLayout());
 
-        javax.swing.GroupLayout marcarConsultasLayout = new javax.swing.GroupLayout(marcarConsultas);
-        marcarConsultas.setLayout(marcarConsultasLayout);
-        marcarConsultasLayout.setHorizontalGroup(
-            marcarConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        marcarConsultasLayout.setVerticalGroup(
-            marcarConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jPanel2.setBackground(new java.awt.Color(0, 149, 218));
+        jPanel2.setMinimumSize(new java.awt.Dimension(960, 550));
+        jPanel2.setPreferredSize(new java.awt.Dimension(960, 550));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel2.setText("DADOS DO PACIENTE");
+        jLabel2.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel2.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel2.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel2.add(jLabel2, gridBagConstraints);
+
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel3.setText("Nome Completo:");
+        jLabel3.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel3.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel3.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        jTextField1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField1.setMinimumSize(new java.awt.Dimension(300, 30));
+        jTextField1.setPreferredSize(new java.awt.Dimension(450, 30));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        jPanel2.add(jTextField1, gridBagConstraints);
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel4.setText("N.º SNS:");
+        jLabel4.setMaximumSize(new java.awt.Dimension(300, 30));
+        jLabel4.setMinimumSize(new java.awt.Dimension(300, 30));
+        jLabel4.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        jPanel2.add(jLabel4, gridBagConstraints);
+
+        jTextField2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField2.setMinimumSize(new java.awt.Dimension(300, 30));
+        jTextField2.setPreferredSize(new java.awt.Dimension(300, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 150);
+        jPanel2.add(jTextField2, gridBagConstraints);
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel5.setText("Contacto:");
+        jLabel5.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel5.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel5.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        jPanel2.add(jLabel5, gridBagConstraints);
+
+        jTextField3.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField3.setMinimumSize(new java.awt.Dimension(300, 30));
+        jTextField3.setPreferredSize(new java.awt.Dimension(300, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 150);
+        jPanel2.add(jTextField3, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel6.setText("DADOS DA CONSULTA");
+        jLabel6.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel6.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel6.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        jPanel2.add(jLabel6, gridBagConstraints);
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel7.setText("Motivo");
+        jLabel7.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel7.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel7.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        jPanel2.add(jLabel7, gridBagConstraints);
+
+        motivo.setColumns(20);
+        motivo.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        motivo.setRows(5);
+        motivo.setMinimumSize(new java.awt.Dimension(300, 200));
+        motivo.setPreferredSize(new java.awt.Dimension(450, 150));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        jPanel2.add(motivo, gridBagConstraints);
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel8.setText("Data:");
+        jLabel8.setMaximumSize(new java.awt.Dimension(450, 30));
+        jLabel8.setMinimumSize(new java.awt.Dimension(450, 30));
+        jLabel8.setPreferredSize(new java.awt.Dimension(450, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        jPanel2.add(jLabel8, gridBagConstraints);
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jFormattedTextField1.setMinimumSize(new java.awt.Dimension(150, 30));
+        jFormattedTextField1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel2.add(jFormattedTextField1, gridBagConstraints);
+
+        jButton1.setBackground(new java.awt.Color(0, 132, 193));
+        jButton1.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(242, 242, 242));
+        jButton1.setText("MARCAR");
+        jButton1.setMaximumSize(new java.awt.Dimension(140, 3405));
+        jButton1.setMinimumSize(new java.awt.Dimension(140, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(140, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel2.add(jButton1, gridBagConstraints);
+
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+        jPanel2.add(jPanel4, new java.awt.GridBagConstraints());
+
+        marcarConsultas.add(jPanel2, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -194,15 +379,17 @@ public class VistaFuncionario extends javax.swing.JFrame {
         getContentPane().add(jPanel3, gridBagConstraints);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void barraPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barraPesquisaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_barraPesquisaActionPerformed
 
     private void botaoVerConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVerConsultasActionPerformed
-
-        if (verConsultas.isVisible() == false){
+         if (verConsultas.isVisible() == false){
+            barraPesquisa.setVisible(true);
+            botaoPesquisa.setVisible(true);
             verConsultas.setVisible(true);
             marcarConsultas.setVisible(false);
         }// TODO add your handling code here:
@@ -210,10 +397,24 @@ public class VistaFuncionario extends javax.swing.JFrame {
 
     private void botaoMarcarConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMarcarConsultasActionPerformed
         if (marcarConsultas.isVisible() == false){
+            barraPesquisa.setVisible(false);
+            botaoPesquisa.setVisible(false);
             marcarConsultas.setVisible(true);
             verConsultas.setVisible(false);
         } // TODO add your handling code here:
     }//GEN-LAST:event_botaoMarcarConsultasActionPerformed
+
+    private void botaoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisaActionPerformed
+        
+    }//GEN-LAST:event_botaoPesquisaActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,16 +453,32 @@ public class VistaFuncionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField barraPesquisa;
     private javax.swing.JButton botaoMarcarConsultas;
+    private javax.swing.JButton botaoPesquisa;
     private javax.swing.JButton botaoVerConsultas;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JPanel consultasPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JLayeredPane marcarConsultas;
+    private javax.swing.JTextArea motivo;
     private javax.swing.JLayeredPane verConsultas;
     // End of variables declaration//GEN-END:variables
 }
