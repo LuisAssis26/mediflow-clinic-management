@@ -1,3 +1,5 @@
+package testes.unit;
+
 import medi.flow.Clinica;
 import medi.flow.Consulta;
 import org.junit.jupiter.api.BeforeEach;

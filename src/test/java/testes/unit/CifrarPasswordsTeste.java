@@ -1,3 +1,5 @@
+package testes.unit;
+
 import org.junit.jupiter.api.Test;
 import sql.server.CifrarPasswords;
 

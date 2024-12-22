@@ -1,3 +1,5 @@
+package testes.unit;
+
 import medi.flow.Medico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

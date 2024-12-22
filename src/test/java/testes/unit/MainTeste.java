@@ -1,3 +1,5 @@
+package testes.unit;
+
 import inter.face.VistaDeLogin;
 import medi.flow.Main;
 import org.junit.jupiter.api.Test;
@@ -6,7 +8,6 @@ import sql.server.SqlGeral;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class MainTeste {
 

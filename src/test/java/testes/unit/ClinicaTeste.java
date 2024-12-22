@@ -1,3 +1,5 @@
+package testes.unit;
+
 import medi.flow.Clinica;
 import medi.flow.Consulta;
 import medi.flow.Paciente;
@@ -6,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

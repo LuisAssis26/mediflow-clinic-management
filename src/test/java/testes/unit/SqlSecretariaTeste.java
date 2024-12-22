@@ -1,3 +1,5 @@
+package testes.unit;
+
 import medi.flow.Medico;
 import medi.flow.Paciente;
 import sql.server.SqlSecretaria;
