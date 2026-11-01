@@ -30,6 +30,10 @@ public class Main {
             System.out.println("Conexão inicializada.");// Mostra uma mensagem de sucesso
         } else {// Se a conexão falhou
             System.out.println("Falha ao conectar a base de dados.");// Mostra uma mensagem de erro
+            String erro = SqlGeral.DatabaseConnection.getErroConfiguracao();
+            if (erro != null) {// Mostra a mensagem se a configuração estiver em falta
+                javax.swing.JOptionPane.showMessageDialog(null, erro, "MediFlow - Configuração em falta", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
 
 

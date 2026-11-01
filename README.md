@@ -50,7 +50,10 @@ pom.xml                  # Maven configuration (Java 21)
 ## Environment Setup
 
 1. Clone the repository.
-2. Update the database credentials (`URL`, `USER`, `PASSWORD`) in `src/main/java/sql/server/SqlGeral.java`.
+2. Configure the database connection (credentials are no longer embedded in the code):
+   - set the environment variables `MEDIFLOW_DB_URL`, `MEDIFLOW_DB_USER` and `MEDIFLOW_DB_PASSWORD`, **or**
+   - copy `config.example.properties` to `config.properties` (git-ignored) and fill in `db.url`, `db.user` and `db.password`. The file is looked up in the working directory and in `~/.mediflow/config.properties`.
+   Environment variables take precedence over the file. If neither is set, the app shows an error dialog explaining what is missing.
 3. Ensure the database contains the expected tables and stored procedures (not included in this repo).
 4. Optional: adjust or externalise the DES key in `sql/server/CifrarPasswords.java`.
 
@@ -90,7 +93,8 @@ Note: Some tests hit the live database, so matching data must be available.
 
 ## Important Notes
 
-- Database credentials are hardcoded; move them to environment variables or config files before distributing.
+- Database credentials are read from environment variables or a local `config.properties` (see Environment Setup).
+- **Installer users:** builds produced by the old installer relied on credentials embedded in the code and will no longer connect on their own. After installing, create `%USERPROFILE%.mediflownfig.properties` (or `~/.mediflow/config.properties` on macOS/Linux) based on `config.example.properties`, or set the `MEDIFLOW_DB_*` environment variables, then restart the app.
 - DES encryption with a fixed key in `CifrarPasswords` is for academic purposes only. Replace with stronger algorithms/key management in production.
 - The `target/` directory can be cleaned with `mvn clean` if you need a fresh workspace.
 

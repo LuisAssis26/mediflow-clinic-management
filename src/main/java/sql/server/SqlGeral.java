@@ -1,6 +1,10 @@
 package sql.server;
 
 import java.sql.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.Date;
 
@@ -92,10 +96,13 @@ public class SqlGeral {
     // A classe DatabaseConnection é a responsavel por criar a conexão com a base de dados
     public static class DatabaseConnection {
 
-        // Definição das constantes para o URL da base de dados, o utilizador e a palavra-passe
-        private static final String URL = "REMOVED";// URL da base de dados
-        private static final String USER = "REMOVED";// Utilizador da base de dados
-        private static final String PASSWORD = "REMOVED";// Palavra-passe da base de dados
+        // Configuração da base de dados: variáveis de ambiente MEDIFLOW_DB_URL, MEDIFLOW_DB_USER e MEDIFLOW_DB_PASSWORD,
+        // com fallback para um config.properties (fora do controlo de versões) na pasta de execução ou em ~/.mediflow/
+        private static final String FICHEIRO_CONFIG = "config.properties";
+        private static String url;// URL da base de dados
+        private static String user;// Utilizador da base de dados
+        private static String password;// Palavra-passe da base de dados
+        private static String erroConfiguracao;// Mensagem de erro quando a configuração está em falta
 
         private static Connection connection; // Declaração da variável de conexão, que será partilhada pelo sistema todo
 
@@ -103,11 +110,66 @@ public class SqlGeral {
         private DatabaseConnection() {
         }
 
+        // Carrega a configuração da base de dados; devolve false (e guarda a mensagem de erro) se estiver incompleta
+        private static boolean carregarConfiguracao() {
+            if (url != null) {// Já carregada
+                return true;
+            }
+            File[] candidatos = {// Locais onde procurar o ficheiro de configuração
+                new File(FICHEIRO_CONFIG),
+                new File(new File(System.getProperty("user.home"), ".mediflow"), FICHEIRO_CONFIG)
+            };
+            Properties ficheiro = new Properties();
+            for (File f : candidatos) {
+                if (f.isFile()) {
+                    try (InputStream in = new FileInputStream(f)) {
+                        ficheiro.load(in);
+                    } catch (IOException e) {
+                        System.err.println("Erro ao ler " + f.getAbsolutePath() + ": " + e.getMessage());
+                    }
+                    break;
+                }
+            }
+            // As variáveis de ambiente têm prioridade sobre o ficheiro
+            String u = valor("MEDIFLOW_DB_URL", ficheiro, "db.url");
+            String us = valor("MEDIFLOW_DB_USER", ficheiro, "db.user");
+            String p = valor("MEDIFLOW_DB_PASSWORD", ficheiro, "db.password");
+            if (u == null || us == null || p == null) {
+                erroConfiguracao = "Configuração da base de dados em falta.\n\n"
+                        + "Defina as variáveis de ambiente MEDIFLOW_DB_URL, MEDIFLOW_DB_USER e MEDIFLOW_DB_PASSWORD,\n"
+                        + "ou copie config.example.properties para config.properties e preencha os valores.\n"
+                        + "O ficheiro é procurado em:\n"
+                        + "  " + candidatos[0].getAbsolutePath() + "\n"
+                        + "  " + candidatos[1].getAbsolutePath();
+                return false;
+            }
+            url = u;
+            user = us;
+            password = p;
+            erroConfiguracao = null;
+            return true;
+        }
+
+        // Lê um valor da variável de ambiente ou, se não existir, do ficheiro de configuração
+        private static String valor(String variavel, Properties ficheiro, String chave) {
+            String v = System.getenv(variavel);
+            return v != null ? v : ficheiro.getProperty(chave);
+        }
+
+        // Devolve a mensagem de erro de configuração, ou null se a configuração estiver completa
+        public static String getErroConfiguracao() {
+            return erroConfiguracao;
+        }
+
         // Método estático para obter a conexão com a base de dados
         public static Connection getInstance() {
             try {
                 if (connection == null || connection.isClosed()) { // Verifica se a conexão é nula ou foi encerrada
-                    connection = DriverManager.getConnection(URL, USER, PASSWORD);// Cria uma nova conexão
+                    if (!carregarConfiguracao()) {// Configuração em falta
+                        System.err.println(erroConfiguracao);
+                        return null;
+                    }
+                    connection = DriverManager.getConnection(url, user, password);// Cria uma nova conexão
                     System.out.println("Conexão com MySQL foi recriada!");// Mensagem de sucesso
                 }
             } catch (SQLException e) {// Captura exceções relacionadas à conexão
